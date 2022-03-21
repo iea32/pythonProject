@@ -90,7 +90,7 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 
     # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
+    # 'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 WSGI_APPLICATION = 'NewsPaper.wsgi.application'
@@ -152,12 +152,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 STATICFILES_DIRS = [
 #        BASE_DIR / "static",
-#        BASE_DIR / "news",
+         BASE_DIR / "news",
 ]
 
 #LOGIN_URL = 'sign/login/'
 # LOGIN_URL = '/accounts/login/'
-LOGIN_URL = '/news/'
+LOGIN_URL = ''
 
 LOGIN_REDIRECT_URL = '/'
 
