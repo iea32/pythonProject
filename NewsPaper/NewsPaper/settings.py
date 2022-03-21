@@ -44,13 +44,13 @@ INSTALLED_APPS = [
     #'accounts',
     #'sign',
 
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    # ... include the providers you want to enable:
-    'allauth.socialaccount.providers.google',
-    #'news.apps.AppointmentConfig',
-    'django_apscheduler',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # # ... include the providers you want to enable:
+    # 'allauth.socialaccount.providers.google',
+    # #'news.apps.AppointmentConfig',
+    # 'django_apscheduler',
 ]
 
 SITE_ID = 1
@@ -151,14 +151,13 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 STATICFILES_DIRS = [
-        BASE_DIR / "static",
+#        BASE_DIR / "static",
 #        BASE_DIR / "news",
 ]
 
 #LOGIN_URL = 'sign/login/'
-LOGIN_URL = '/accounts/login/'
-SITE_ID = 1
-
+# LOGIN_URL = '/accounts/login/'
+LOGIN_URL = '/news/'
 
 LOGIN_REDIRECT_URL = '/'
 
