@@ -22,7 +22,7 @@ class PostList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['post_count'] = Post.objects.all().count()
-        #context['post'] = Post.objects.all().order_by('-id')
+        context['post'] = Post.objects.all().order_by('-id')
         context['time_now'] = datetime.utcnow()
         return context
 
