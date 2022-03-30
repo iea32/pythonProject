@@ -41,14 +41,14 @@ INSTALLED_APPS = [
     #'fpages',
 
     'news',
-    #'accounts',
-    #'sign',
+    'accounts',
+    # 'sign',
 
-    # 'allauth',
-    # 'allauth.account',
-    # 'allauth.socialaccount',
-    # # ... include the providers you want to enable:
-    # 'allauth.socialaccount.providers.google',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # ... include the providers you want to enable:
+    'allauth.socialaccount.providers.google',
     # #'news.apps.AppointmentConfig',
     # 'django_apscheduler',
 ]
@@ -90,7 +90,7 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 
     # `allauth` specific authentication methods, such as login by e-mail
-    # 'allauth.account.auth_backends.AuthenticationBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 WSGI_APPLICATION = 'NewsPaper.wsgi.application'
@@ -156,8 +156,8 @@ STATICFILES_DIRS = [
 ]
 
 #LOGIN_URL = 'sign/login/'
-# LOGIN_URL = '/accounts/login/'
-LOGIN_URL = ''
+LOGIN_URL = '/accounts/login/'
+# LOGIN_URL = ''
 
 LOGIN_REDIRECT_URL = '/'
 
