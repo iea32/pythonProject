@@ -41,19 +41,17 @@ INSTALLED_APPS = [
     #'fpages',
 
     'news',
-    'accounts',
-    # 'sign',
+    #'accounts',
+    #'sign',
 
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     # ... include the providers you want to enable:
     'allauth.socialaccount.providers.google',
-    # #'news.apps.AppointmentConfig',
-    # 'django_apscheduler',
+    #'news.apps.AppointmentConfig',
+    'django_apscheduler',
 ]
-
-SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -150,14 +148,15 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-STATICFILES_DIRS = [
-#        BASE_DIR / "static",
-         BASE_DIR / "news",
-]
+# STATICFILES_DIRS = [
+#         BASE_DIR / "static",
+#        BASE_DIR / "news",
+# ]
 
 #LOGIN_URL = 'sign/login/'
 LOGIN_URL = '/accounts/login/'
-# LOGIN_URL = ''
+SITE_ID = 1
+
 
 LOGIN_REDIRECT_URL = '/'
 
@@ -173,12 +172,12 @@ ACCOUNT_FORMS = {'signup': 'NewsPaper.models.BasicSignupForm'}
 
 EMAIL_HOST = 'smtp.yandex.ru'  # адрес сервера Яндекс-почты для всех один и тот же
 EMAIL_PORT = 465  # порт smtp сервера тоже одинаковый
-EMAIL_HOST_USER = 'Skill.testing'  # ваше имя пользователя, например, если ваша почта user@yandex.ru, то сюда надо писать user, иными словами, это всё то что идёт до собаки
-EMAIL_HOST_PASSWORD = 'qAzSe$123'  # пароль от почты
+EMAIL_HOST_USER = 'te5t12.12'  # ваше имя пользователя, например, если ваша почта user@yandex.ru, то сюда надо писать user, иными словами, это всё то что идёт до собаки
+EMAIL_HOST_PASSWORD = '#12test12!'  # пароль от почты
 EMAIL_USE_SSL = True  # Яндекс использует ssl, подробнее о том, что это, почитайте в дополнительных источниках, но включать его здесь обязательно
 #EMAIL_USE_TLS = True
 
-DEFAULT_FROM_EMAIL = 'Skill.testing@yandex.ru'
+DEFAULT_FROM_EMAIL = 'te5t12.12@yandex.ru'
 
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 
