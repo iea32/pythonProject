@@ -72,7 +72,7 @@ def mail_new_post(id):
                 # send_mail(
                 #     subject=f'{post.author.user.username} {post.created.strftime("%d-%m-%Y %H:%M")}',  # имя клиента и дата записи будут в теме для удобства
                 #     message=f'{post.head} \n {post.text}',  # сообщение с кратким описанием проблемы
-                #     from_email='Skill.testing@yandex.ru', # здесь указываете почту, с которой будете отправлять (об этом попозже)
+                #     from_email='te5t12.12@yandex.ru', # здесь указываете почту, с которой будете отправлять (об этом попозже)
                 #     recipient_list=[post.author.user.email]  # здесь список получателей. Например, секретарь, сам врач и т. д.
                 # )
 
