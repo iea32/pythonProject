@@ -12,6 +12,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives # send_mail
 from NewsPaper.settings import ALLOWED_HOSTS
 from NewsPaper.tasks import mail_new_post
+from django.core.cache import cache
 
 class PostList(LoginRequiredMixin, ListView):
     model = Post
@@ -37,6 +38,21 @@ class PostDetail(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['comments'] = Comment.objects.filter(post_id=pk)
         return context
+
+
+    def get_object(self, *args, **kwargs):
+        #print('get_object')
+        obj = cache.get(f'post-{self.kwargs["pk"]}',
+                        None)  # кэш очень похож на словарь, и метод get действует так же. Он забирает значение по ключу, если его нет, то забирает None.
+
+        # если объекта нет в кэше, то получаем его и записываем в кэш
+        if not obj:
+            #print('not obj')
+            #obj = super().get_object(queryset=kwargs['queryset'])
+            obj = super().get_object()
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+        return obj
+
 
     def post(self, request, *args, **kwargs):
         return redirect('/news/')

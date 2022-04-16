@@ -1,13 +1,17 @@
 {% extends 'flatpages/default.html' %}
 {% load custom_filters %}
+{% load cache %} <!-- Загружаем кэширование -->
 
 {% block menu %}
 {% include 'post/menu_post.html' %}
 {% endblock menu %}
 
-{% block title %}
-<h1> Новость №{{post.pk}} </h1>
-{% endblock title %}
+
+{% cache 30 title %} <!-- Кэшируем отдельный блок на 30 секунд -->
+    {% block title %}
+    <h1> Новость №{{post.pk}} </h1>
+    {% endblock title %}
+{% endcache %}
 
 {% block content %}
     <div class="input-group">
