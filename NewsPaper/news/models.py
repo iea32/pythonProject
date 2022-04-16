@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.cache import cache
 
 
 # Create your models here.
@@ -54,6 +55,11 @@ class Post(models.Model):
     def preview(self):
         size = 124 if len(self.text) > 124 else len(self.text)
         return self.text[:size] + '...'
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs) # сначала вызываем метод родителя, чтобы объект сохранился
+        #cache.delete(f'news') # затем удаляем его из кэша, чтобы сбросить его
+        cache.delete(f'post-{self.pk}') # затем удаляем его из кэша, чтобы сбросить его
 
     @property
     def post_type_str(self):
