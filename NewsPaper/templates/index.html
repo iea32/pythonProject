@@ -1,17 +1,55 @@
 {% extends 'flatpages/default.html' %}
+{% load i18n %}
+{% load tz %}
 
 {% block menu %}
 {% endblock menu %}
 
 {% block title %}
-<h1> Портал Новостей </h1>
+<h1> {% trans "Портал Новостей" %} </h1>
+
+    <form action="{% url 'set_language' %}" method="POST"> {% csrf_token %}
+        <input type="hidden" name="next" value="{{ redirect_to }}">
+
+        <select name="language" id="">
+            {% get_available_languages as LANGUAGES %} <!-- получаем языки -->
+            {% get_language_info_list for LANGUAGES as languages %} <!-- Помещаем их в список languages -->
+
+            {% for language in languages %} <!-- Итерируясь по списку, выводим их название на языке пользователя и код -->
+                <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
+                    {{ language.name_local }} - {{ language.code }}
+                </option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="set">
+    </form>
+
+    {% get_current_timezone as TIME_ZONE %}
+    <form method="POST"> {% csrf_token %}
+
+        <label for="timezone">Time zone:</label>
+        <select name="timezone">
+            {% for tz in timezones %}
+            <option value="{{ tz }}"{% if tz == TIME_ZONE %} selected{% endif %}>{{ tz }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Set">
+    </form>
+
+    {{ TIME_ZONE }}
+    {{ current_time|timezone:TIME_ZONE }} <!-- Отображаем время в выбранном часовом поясе  -->
+
 {% endblock title %}
 
 {% block content %}
+    <style>
+        body {background-color: {% if current_time.hour >= 19 or current_time.hour <= 7 %} darkcyan {% else %}
+        powderblue {% endif %};}
+    </style>
     {% csrf_token %}
     <div class="row g-3 align-items-center">
         <div class="col-1">
-            <label for="username" class="col-form-label">Имя</label>
+            <label for="username" class="col-form-label">{% trans "Имя" %}</label>
         </div>
         <div class="col-auto">
             <input type="text" id="username" class="form-control" name="username" value='{{request.user}}' readonly>
@@ -54,14 +92,14 @@
 
     <div class="row g-3 align-items-center">
         <div class="col-1">
-            <label for="last_login" class="col-form-label">Дата</label>
+            <label for="last_login" class="col-form-label">Вход</label>
         </div>
         <div class="col-auto">
             <input type="datetime" id="last_login" class="form-control" name="last_login" value="{{request.user.last_login|date:'d.m.Y h:i a'}}" readonly>
         </div>
         <div class="col-auto">
     <span id="last_login" class="form-text">
-      Последняя дата входа в систему
+      Последние дата и время входа в систему
     </span>
         </div>
     </div>
@@ -140,6 +178,8 @@
 </div>
 
 <br>
+{% comment %}
+{% endcomment %}
 <form method="POST">
     {% csrf_token %}
     <button type="submit" class="btn btn-primary">Список Новостей</button>
@@ -149,6 +189,7 @@
         <button onclick="document.location='/admin/'" class="btn btn-success">Login Admin</button>
     </p>
 {% endblock content %}
+
 
 {% block content1 %}
 {% endblock content1 %}

@@ -61,3 +61,4 @@ class BaseRegisterView(CreateView):
     form_class = BaseRegisterForm
     success_url = '/'
 
+

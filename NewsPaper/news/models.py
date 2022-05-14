@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.cache import cache
+from django.forms.fields import DateField
 
 
 # Create your models here.
@@ -22,6 +23,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def user_str(self):
+        return ','.join(cc.username for cc in self.users.all())
 
 class Subscribe(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -63,15 +68,23 @@ class Post(models.Model):
 
     @property
     def post_type_str(self):
-        for i in self.POST_TYPE:
-            if self.post_type == i[0]:
-                post_type = i[1]
-        return post_type
+        # for i in self.POST_TYPE:
+        #     if self.post_type == i[0]:
+        #         post_type = i[1]
+        return [i for i in self.POST_TYPE if i[0] == self.post_type][0][1]
 
     @property
     def cats_str(self):
         return ','.join(cc.name for cc in self.cats.all())
 
+    # def __str__(self):
+    #     cats = ','.join(cc.name for cc in self.cats.all())
+    #     post_type = [i for i in self.POST_TYPE if i[0] == self.post_type][0][1]
+    #     # for i in self.POST_TYPE:
+    #     #     if self.post_type == i[0]:
+    #     #         post_type = i[1]
+    #     res = f'{self.author.user} {post_type} {str(DateField().to_python(self.created))} {cats[:20]} {self.head} {self.text[:22]} {self.rating}'
+    #     return res
 
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)

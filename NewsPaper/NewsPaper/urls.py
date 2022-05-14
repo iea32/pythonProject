@@ -1,4 +1,3 @@
-
 """NewsPaper URL Configuration
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -16,9 +15,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .views import IndexView, upgrade_premium, upgrade_authors
-from django.views.decorators.cache import cache_page
+#from django.views.decorators.cache import cache_page
+#from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
+    path('i18n/', include('django.conf.urls.i18n')),
     path('', IndexView.as_view(), name='index'),
     path('accounts/', include('allauth.urls')),
     #path('accounts/', include('accounts.urls')),
@@ -28,4 +29,3 @@ urlpatterns = [
     path('upgrade/authors/', upgrade_authors, name='upgrade_authors')
 
 ]
-
