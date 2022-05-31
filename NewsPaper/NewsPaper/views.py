@@ -1,4 +1,5 @@
 #from datetime import datetime, date, timedelta
+from datetime import datetime, timedelta
 
 #from django.shortcuts import render, reverse, redirect
 
@@ -13,6 +14,15 @@ from .models import BaseRegisterForm
 from django.shortcuts import redirect
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
+from .tasks import hello, printer
+
+from django.utils import timezone
+from django.shortcuts import redirect
+
+import pytz
+
+import logging
+logger = logging.getLogger(__name__)
 
 class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'index.html'
@@ -24,9 +34,18 @@ class IndexView(LoginRequiredMixin, TemplateView):
         # context['time_now'] = str(datetime.utcnow()).split(" ")[0]
         context['is_not_premium'] = not self.request.user.groups.filter(name='premium').exists()
         context['is_not_authors'] = not self.request.user.groups.filter(name='authors').exists()
+        context['current_time'] = timezone.now()
+        context['timezones'] = pytz.common_timezones
         return context
 
     def get(self, request, *args, **kwargs):
+        #hello.delay()
+        #printer.delay(N=10)
+        #printer.apply_async([10], countdown=5)
+        #printer.apply_async([10], eta=datetime.now() + timedelta(seconds=5))
+
+        logger.info(f'username {request.user.username}')
+
         context = self.get_context_data()
         if request.user.is_staff:
             context['type_user'] = 'Администратор'
@@ -35,10 +54,16 @@ class IndexView(LoginRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
-        if request.user.is_staff:
-            return redirect('/news/')
-        else:
-            return redirect('/news/')
+        click_timzone = request.POST.get('timezone', None)
+        if click_timzone:
+            request.session['django_timezone'] = request.POST['timezone']
+            return redirect('/')
+        return redirect('/news/')
+
+        # if request.user.is_staff:
+        #     return redirect('/news/')
+        # else:
+        #     return redirect('/news/')
 
 @login_required
 def upgrade_premium(request):
@@ -60,5 +85,3 @@ class BaseRegisterView(CreateView):
     model = User
     form_class = BaseRegisterForm
     success_url = '/'
-
-
